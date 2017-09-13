@@ -14,4 +14,5 @@ public class langData : MonoBehaviour{
     public static string resume_button;
     public static string mainmenu_button;
     public static string newgame_button;
+    public static string t1,t2,t3,t4;
 }

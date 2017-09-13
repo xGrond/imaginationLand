@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class destroyObject : MonoBehaviour {
 
-    public GameObject Karakter;
-    private karakterController karakterController;
+
+    public deathController death;
 
     private void Start()
     {
-       karakterController = Karakter.GetComponent<karakterController>();
+        death = death.GetComponent<deathController>();
     }
 
     //Karekter girerse oyunu bitir
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "oyuncu") {
-            karakterController.gameOver();
+        if (other.gameObject.tag == "oyuncu")
+        {
+            death.gameOver();
         }
+        else return;
     }
 
 
@@ -28,6 +30,6 @@ public class destroyObject : MonoBehaviour {
         {
             Destroy(other.gameObject);
         }
-
+        else return;
     }
 }

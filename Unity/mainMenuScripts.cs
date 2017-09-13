@@ -10,13 +10,26 @@ public class mainMenuScripts : MonoBehaviour {
     public float bestScore;
 
     [SerializeField]
+    AudioSource mainMenuMusic;
+
+    [SerializeField]
+    Toggle musicToggle;
+
+    [SerializeField]
     Text best_score; 
 
     private void Start()
     {
+        if (PlayerPrefs.GetInt("musicStatus") == 0)
+        {
+            musicToggle.isOn = true;
+        }
+        else musicToggle.isOn = false;
+        checkMusicStatus();
         bestScore = PlayerPrefs.GetFloat("bestScore");
         bestScoreText.text = PlayerPrefs.GetFloat("bestScore").ToString();
         setSceneTexts();
+
     }
 
     public void loadGame() {
@@ -25,7 +38,28 @@ public class mainMenuScripts : MonoBehaviour {
 
 
     void setSceneTexts() {
-        best_score.GetComponent<Text>().text = langData.best_score;
+        if (langData.best_score == null) return;
+        else best_score.GetComponent<Text>().text = langData.best_score;
     }
 
+    void setMusicStatus() {
+        if (!musicToggle.isOn)
+        {
+            PlayerPrefs.SetInt("musicStatus", 1);
+        }
+        else PlayerPrefs.SetInt("musicStatus", 0);
+    }
+
+    public void checkMusicStatus() {
+        setMusicStatus();
+        if (PlayerPrefs.GetInt("musicStatus") == 1)
+        {
+            mainMenuMusic.Play();
+        }
+        else mainMenuMusic.Stop();
+    }
+
+    public void rateThisApp() {
+        Application.OpenURL("market://details?id=com.state.hwhp");
+    }
 }

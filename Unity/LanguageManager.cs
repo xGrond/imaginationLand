@@ -37,7 +37,6 @@ public class LanguageManager : MonoBehaviour
         for (int i = 0; i < langNodes.Count; i++)
         {
             string val = langNodes[i].Attributes["name"].Value;
-            
             switch (val)
             {
                 case "best_score":
@@ -60,6 +59,18 @@ public class LanguageManager : MonoBehaviour
                     break;
                 case "newgame_button":
                     langData.newgame_button = langNodes[i].InnerText;
+                    break;
+                case "tutorial_script_1":
+                    langData.t1 = langNodes[i].InnerText;
+                    break;
+                case "tutorial_script_2":
+                    langData.t2 = langNodes[i].InnerText;
+                    break;
+                case "tutorial_script_3":
+                    langData.t3 = langNodes[i].InnerText;
+                    break;
+                case "tutorial_script_4":
+                    langData.t4 = langNodes[i].InnerText;
                     break;
             }
             

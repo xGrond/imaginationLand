@@ -15,9 +15,9 @@ public class karakterController : MonoBehaviour {
     public int score;
     public GameObject scoreObject;
     public charTuzakEtkilesim tuzakScript;
-    private float overTime;
-    private bool canFinish;
-    public static int tuzakSpawnZorlugu = 1;
+    public Text menuscore;
+    public bool canFinish;
+    public static int tuzakSpawnZorlugu;
     public int ikinciAsama;
     public int ucuncuAsama;
     
@@ -31,6 +31,7 @@ public class karakterController : MonoBehaviour {
 
     void Start()
     {
+        tuzakSpawnZorlugu = 1;
         ikinciAsama = firstDifPoint();
         tuzakScript = GetComponent<charTuzakEtkilesim>();
         anim = GetComponent<Animator>();
@@ -43,12 +44,10 @@ public class karakterController : MonoBehaviour {
     public void sagZipla() {
         if (exPosition == 0)
         {
-            lerpSuresi = 0.6f;
             hareket(sag, 0.5f, transform.position.z - uzaklik);
         }
         else
         {
-            lerpSuresi = 0.5f;
             hareket(sag, 0.5f, transform.position.z - uzaklik);
         }
         exPosition = 2;
@@ -56,19 +55,16 @@ public class karakterController : MonoBehaviour {
     public void solZipla() {
         if (exPosition == 2)
         {
-            lerpSuresi = 0.6f;
             hareket(sol, 0.5f, transform.position.z - uzaklik);
         }
         else
         {
-            lerpSuresi = 0.5f;
             hareket(sol, 0.5f, transform.position.z - uzaklik);
         }
         exPosition = 0;
     }
 
     public void duzZipla() {
-        lerpSuresi = 0.5f;
         hareket(orta, 0.5f, transform.position.z - uzaklik);
         exPosition = 1;
     }
@@ -101,8 +97,6 @@ public class karakterController : MonoBehaviour {
         {
             tuzakSpawnZorlugu = 3;
         }
-
-        gameEndCounter(overTime);
         karakterMove(endPos, action);
     }
 
@@ -126,12 +120,13 @@ public class karakterController : MonoBehaviour {
         }
         else
         {
-            //anim.SetFloat("Blend", 0.0f);
+            anim.SetFloat("Blend", 0.0f);
         }
     }
 
     public void gameScoreUpdate(float gameScore) {
         scoreObject.GetComponent<Text>().text = gameScore.ToString();
+        menuscore.text = gameScore.ToString();
     }
 
     //ilk asama nerde gerceklescek
@@ -144,21 +139,4 @@ public class karakterController : MonoBehaviour {
         return Random.Range(100, 121);
     }
 
-
-
-    //Karakterin yok olmasina karar verirsen asagidaki kodlari tasi
-    //Karakter olurse gameEndCounter() tetikle
-    public void gameOver() {
-        tuzakSpawnZorlugu = 1;
-        canFinish = true;
-        isGameRunning = false;
-        overTime = Time.time + 2f;
-    }
-    //x Saniye sonra oyunu bitir
-    void gameEndCounter(float bitisSuresi) {
-        if (bitisSuresi < Time.time && canFinish) {
-            tuzakScript.hitTuzak();
-            canFinish = false;
-        }
-    }
 }

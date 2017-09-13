@@ -11,9 +11,8 @@ public class zeminSpawn : MonoBehaviour {
     public GameObject zemin3;
     public GameObject zemin4;
 
-    public GameObject mesafeOlc;
     public GameObject cam;
-    private float mesafe = 0;
+    public GameObject karakter;
     private float pozisyonZ = 0;
 
     //kac tane bos zemin olcak
@@ -24,22 +23,22 @@ public class zeminSpawn : MonoBehaviour {
     private float tuzakKonum;
     private float tuzakKonum2;
 
-    [SerializeField]
-    private GameObject tuzakPrefap;
+    public GameObject tuzakPrefap;
 
     //spawn pointlerin x cinsinden konumu
     //x1 en sol x3 en sag
-    private const float x1 = -1.43f;
-    private const float x2 = 0;
-    private const float x3 = 1.43f;
+    const float x1 = -3.37f;
+    const float x2 = 0;
+    const float x3 = 3.37f;
 
     //spawn pointlerin y cinsinden degeri (yukseklik)
-    private float y = 0.5f;
-
+    const float y = 0.75f;
+   
     public void ucluSpawn() {
+        float z = transform.position.z;
         var spawnPoint = (GameObject)Instantiate(
         spawmlancakPrefab(),
-        transform.position = new Vector3(0, 0, pozisyonZ),
+        transform.position = new Vector3(0, 0, z),
         transform.rotation
         );
         pozisyonZ -= 5f;
@@ -153,18 +152,27 @@ public class zeminSpawn : MonoBehaviour {
     }
 
     public void tekTuzakSpawn(float pozX) {
-        Instantiate(tuzakPrefap, new Vector3(pozX, y, pozisyonZ), Quaternion.identity);
+        Instantiate(tuzakPrefap, new Vector3(pozX, y, pozisyonZ), Quaternion.Euler(-90,180,0));
     }
 
     void Update()
     {
-        //Eger kamera ve cisim arasindaki mesefe bir birimden fazla ise yemin spawnla ve cismi tasi
-        mesafe = mesafeOlc.transform.position.z- cam.transform.position.z;
-        if (mesafe >= 2f)
+        spawnController();       
+    }
+
+    float charNspawnDistance() {
+        float camZ = cam.transform.position.z;
+        float spawnPointZ = transform.position.z;
+        
+        return camZ - spawnPointZ;
+    }
+    
+    void spawnController() {
+        float z = transform.position.z - 5;
+        if (charNspawnDistance() <= 0)
         {
             ucluSpawn();
-            mesafe = 0;
-            mesafeOlc.transform.position = cam.transform.position;
+            transform.position = new Vector3(0, 0, z);
         }
     }
 }

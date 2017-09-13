@@ -11,18 +11,18 @@ public class Ads : MonoBehaviour {
 
     private void Start()
     {
-        if (Advertisement.isSupported) {
+        if (Advertisement.isSupported)
+        {
             Advertisement.Initialize(gameID, isTestMode);
         }
+        else return;
     }
 
     public void ShowAds() {
-        if (Advertisement.IsReady()) {
+        if (Advertisement.IsReady())
+        {
             Advertisement.Show();
         }
+        else return;
     }
-
-
-
-
 }

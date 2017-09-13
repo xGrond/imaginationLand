@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class skyBoxMove : MonoBehaviour {
 
-    public float skyboxDonmeKatsayisi;
+    [SerializeField]
+    GameObject skyboxCamera;
+
+    public float hiz;
 
 	// Update is called once per frame
 	void Update () {
-        RenderSettings.skybox.SetFloat("_Rotation", Time.time * skyboxDonmeKatsayisi);
+        skyboxCamera.transform.Rotate(-1.5f * Time.deltaTime,-3.5f * Time.deltaTime, 0f);
 	}
 }
