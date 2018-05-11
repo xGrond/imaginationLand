@@ -9,6 +9,9 @@ public class gameUI : MonoBehaviour {
     public Text scoreText;
     public GameObject gameOverObj;
     public Text endGameScore;
+    public Text doublePointTimeText;
+    public GameObject doublePointTimeTextObj;
+    public GameObject doubleLogo;
     bool doublePoint;
     float doublePointTime;
 
@@ -27,15 +30,26 @@ public class gameUI : MonoBehaviour {
 
 
     public void activateDoublePoint() {
-        doublePointTime = 5f;
+        doublePointTime = 10.5f;
         doublePoint = true;
+        if (!doublePointTimeTextObj.activeSelf)
+        {
+            doublePointTimeTextObj.SetActive(true);
+            doubleLogo.SetActive(true);
+        }
     }
 
     void doublePointTimer() {
         if (doublePoint)
         {
+            doublePointTimeText.text = Mathf.Round(doublePointTime).ToString();
             doublePointTime -= Time.deltaTime;
-            if (doublePointTime < 0) doublePoint = false;
+            if (doublePointTime < 0.5f)
+            {
+                doublePoint = false;
+                doublePointTimeTextObj.SetActive(false);
+                doubleLogo.SetActive(false);
+            }
         }
     }
 

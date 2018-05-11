@@ -12,6 +12,7 @@ public class knife : MonoBehaviour {
     bool hitWood;
     bool hitFruit;
     bool drop;
+    bool isGameOver;
     float deathTime;
 
     // Use this for initialization
@@ -24,6 +25,7 @@ public class knife : MonoBehaviour {
         canvas = GameObject.Find("Canvas");
         gameui = canvas.GetComponent<gameUI>();
         setDeathTime();
+        isGameOver = false;
 	}
 
     void setDeathTime() {
@@ -62,7 +64,7 @@ public class knife : MonoBehaviour {
     }
 
     void KnifeMove() {
-        transform.Translate(0, 10 * Time.deltaTime, 0);
+        transform.Translate(0, 25    * Time.deltaTime, 0);
     }
 
     void knifeRotate() {
@@ -80,23 +82,30 @@ public class knife : MonoBehaviour {
 
         if (other.gameObject.tag == "fruit")
         {
-            gameui.increaseScore();
-            Destroy(other.gameObject);
-            hitFruit = true;
-            speedIncrease();
+            if (!isGameOver)
+            {
+                gameui.increaseScore();
+                Destroy(other.gameObject);
+                hitFruit = true;
+                speedIncrease();
+            }
         }
 
         if(other.gameObject.tag == "2x")
         {
-            Destroy(other.gameObject);
-            hitFruit = true;
-            gameui.activateDoublePoint();
+            if (!isGameOver)
+            {
+                Destroy(other.gameObject);
+                hitFruit = true;
+                gameui.activateDoublePoint();
+            }
         }
         checkIfGameOver(hitWood,hitFruit);
     }
 
     void checkIfGameOver(bool wood, bool fruit) {
         if (wood && !fruit) {
+            isGameOver = true;
             gameui.gameOver();
         }
     }

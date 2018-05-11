@@ -56,7 +56,7 @@ public class spawner : MonoBehaviour {
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.tag == "fruit" || other.gameObject.tag == "knife")
+        if (other.gameObject.tag == "fruit" || other.gameObject.tag == "knife" || other.gameObject.tag == "2x")
         {
             setSpawnDelay();
         }
